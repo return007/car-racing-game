@@ -14,7 +14,7 @@ public class Game extends JPanel{
 	int nOpponent;
 	String imageLoc[];
 	int lx[],ly[];
-	
+	int score = 0;
 	
 	boolean isUp, isDown, isRight, isLeft;
 	
@@ -60,6 +60,7 @@ public class Game extends JPanel{
 		catch(Exception e){
 			System.out.println(e);
 		}
+		
 	}
 
 	void moveRoad(int count){
@@ -85,6 +86,7 @@ public class Game extends JPanel{
 		for(int i=0;i<this.nOpponent;i++){
 			this.lx[i] -= 2;
 		}
+		
 		int index[] = new int[nOpponent];
 		for(int i=0;i<nOpponent;i++){
 			if(lx[i] >= -127){
@@ -100,7 +102,29 @@ public class Game extends JPanel{
 				c++;
 			}
 		}
+		score += nOpponent - c;
 		nOpponent = c;
+		//Check for collision
+		int diff = 0;
+		for(int i=0;i<nOpponent;i++){
+			diff = car_y - ly[i];
+			if((ly[i] >= car_y && ly[i] <= car_y+46) || (ly[i]+46 >= car_y && ly[i]+46 <= car_y+46)){
+				//along same line (horizontal)
+				if(car_x+87 >= lx[i] && !(car_x >= lx[i]+87)){
+					//Collision hua h
+					//ab game end karo
+					System.out.println("My car : "+car_x+", "+car_y);
+					System.out.println("Colliding car : "+lx[i]+", "+ly[i]);
+					this.finish();
+				}
+			}
+		}
+	}
+	
+	
+	void finish(){
+		JOptionPane.showMessageDialog(this,"Game Over!!!\nScore : "+score, "Game Over", JOptionPane.YES_NO_OPTION);
+		System.exit(ABORT);
 	}
 	
 	public void moveCar(KeyEvent e){
@@ -110,7 +134,7 @@ public class Game extends JPanel{
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN){
 			isDown = true;
-			speedX = -1;
+			speedX = -2;
 		}
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			isRight = true;
@@ -166,7 +190,7 @@ public class Game extends JPanel{
 			}
 			c = 1;
 			count++;
-			if(game.nOpponent < 4 && count % 400 == 0){
+			if(game.nOpponent < 4 && count % 200 == 0){
 				game.imageLoc[game.nOpponent] = "images/car_left_"+((int)((Math.random()*100)%3)+1)+".png";
 				game.lx[game.nOpponent] = 499;
 				int p = (int)(Math.random()*100)%4;
