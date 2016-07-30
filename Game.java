@@ -14,7 +14,10 @@ public class Game extends JPanel{
 	int nOpponent;
 	String imageLoc[];
 	int lx[],ly[];
-	int score = 0;
+	int score;
+	int highScore;
+	int speedOpponent[];
+	
 	
 	boolean isUp, isDown, isRight, isLeft;
 	
@@ -35,9 +38,12 @@ public class Game extends JPanel{
 		isUp = isDown = isLeft = isRight = false;
 		speedX = speedY = 0;
 		nOpponent = 0;
-		lx = new int[200];
-		ly = new int[200];
-		imageLoc = new String[200];
+		lx = new int[20];
+		ly = new int[20];
+		imageLoc = new String[20];
+		speedOpponent = new int[20];
+		
+		score = highScore = 0;
 	}
 	
 	public void paint(Graphics g){
@@ -79,12 +85,23 @@ public class Game extends JPanel{
 		car_x += speedX;
 		car_y += speedY;
 		
+		//Restricted to go beyond the screen
 		if(car_x < 0)
 			car_x = 0;
 		
+		//Restricted to go outside the right side
+		if(car_x+93 >= 500)
+			car_x = 500-93;
+			
+		//Restriction of road also
+		if(car_y <= 124)
+			car_y = 124;
+		if(car_y >= 364-50)
+			car_y = 364-50;
+		
 		//also run opponents
 		for(int i=0;i<this.nOpponent;i++){
-			this.lx[i] -= 2;
+			this.lx[i] -= speedOpponent[i];
 		}
 		
 		int index[] = new int[nOpponent];
@@ -99,10 +116,15 @@ public class Game extends JPanel{
 				imageLoc[c] = imageLoc[i];
 				lx[c] = lx[i];
 				ly[c] = ly[i];
+				speedOpponent[c] = speedOpponent[i];
 				c++;
 			}
 		}
 		score += nOpponent - c;
+		
+		if(score > highScore)
+			highScore = score;
+		
 		nOpponent = c;
 		//Check for collision
 		int diff = 0;
@@ -123,7 +145,10 @@ public class Game extends JPanel{
 	
 	
 	void finish(){
-		JOptionPane.showMessageDialog(this,"Game Over!!!\nScore : "+score, "Game Over", JOptionPane.YES_NO_OPTION);
+		String str = "";
+		if(score == highScore && score != 0)
+			str = "\nCongratulations!!! Its a high score";
+		JOptionPane.showMessageDialog(this,"Game Over!!!\nYour Score : "+score+"\nHigh Score : "+highScore+str, "Game Over", JOptionPane.YES_NO_OPTION);
 		System.exit(ABORT);
 	}
 	
@@ -207,6 +232,7 @@ public class Game extends JPanel{
 					p = 130;
 				}
 				game.ly[game.nOpponent] = p;
+				game.speedOpponent[game.nOpponent] = (int)(Math.random()*100)%2 + 2;
 				game.nOpponent++;
 			}
     	}
