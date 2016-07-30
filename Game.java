@@ -17,7 +17,7 @@ public class Game extends JPanel{
 	int score;
 	int highScore;
 	int speedOpponent[];
-	
+	boolean isFinished;
 	
 	boolean isUp, isDown, isRight, isLeft;
 	
@@ -42,7 +42,7 @@ public class Game extends JPanel{
 		ly = new int[20];
 		imageLoc = new String[20];
 		speedOpponent = new int[20];
-		
+		isFinished = false;
 		score = highScore = 0;
 	}
 	
@@ -57,6 +57,10 @@ public class Game extends JPanel{
 				
 			obj.drawImage(getToolkit().getImage("images/car_self.png"),car_x,car_y,this);
 		
+			if(isFinished){
+				obj.drawImage(getToolkit().getImage("images/boom.png"),car_x-30,car_y-30,this);
+			}
+			
 			if(this.nOpponent > 0){
 				for(int i=0;i<this.nOpponent;i++){
 					obj.drawImage(getToolkit().getImage(this.imageLoc[i]),this.lx[i],this.ly[i],this);
@@ -146,6 +150,8 @@ public class Game extends JPanel{
 	
 	void finish(){
 		String str = "";
+		isFinished = true;
+		this.repaint();
 		if(score == highScore && score != 0)
 			str = "\nCongratulations!!! Its a high score";
 		JOptionPane.showMessageDialog(this,"Game Over!!!\nYour Score : "+score+"\nHigh Score : "+highScore+str, "Game Over", JOptionPane.YES_NO_OPTION);
