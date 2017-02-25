@@ -12,5 +12,5 @@ java Game
 ```
 ### Snapshots : 
 
-![Snapshot 1](https://github.com/return007/car-racing-game/images/readme1.png "Snapshot 1")<br>
-![Snapshot 2](https://github.com/return007/car-racing-game/images/readme2.png "Snapshot 2")
+![Snapshot 1](https://github.com/return007/car-racing-game/blob/master/images/readme1.png "Snapshot 1")<br>
+![Snapshot 2](https://github.com/return007/car-racing-game/blob/master/images/readme2.png "Snapshot 2")
