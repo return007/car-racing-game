@@ -12,20 +12,19 @@ public class Game extends JPanel{
     int car_x,car_y;    //x and y location of user's car
     int speedX,speedY;	//the movement values of the user's car
     int nOpponent;      //the number of opponent vehicles in the game
-    String imageLoc[]; //array used to store oponnent car images
+    String imageLoc[]; //array used to store opponent car images
     int lx[],ly[];  //integer arrays used to store the x and y values of the oncoming vehicles
-    int score;      //intger variable used to store the current score of the player
+    int score;      //integer variable used to store the current score of the player
     int highScore;  //integer variable used to store the high score of the player
-    int speedOpponent[]; //integer array used to store the spped value of each opponent vehicle in the game
-    boolean isFinished; //boolean that will be used the end the game when a colision occurs
+    int speedOpponent[]; //integer array used to store the speed value of each opponent vehicle in the game
+    boolean isFinished; //boolean that will be used the end the game when a collision occurs
     boolean isUp, isDown, isRight, isLeft;  //boolean values that show when a user clicks the corresponding arrow key
     
     public Game(){
         crx = cry = -999;   //initialing setting the location of the crossing to (-999,-999)
         //Listener to get input from user when a key is pressed and released
         addKeyListener(new KeyListener() {
-            public void keyTyped(KeyEvent e) {
-            }
+            public void keyTyped(KeyEvent e) { }
             public void keyReleased(KeyEvent e) { //when a key is released
                 stopCar(e); //stop movement of car
             }
@@ -139,9 +138,7 @@ public class Game extends JPanel{
         nOpponent = c;
         
         //Check for collision
-        int diff = 0; //difference between users car and opponents car initially set to zero
         for(int i=0;i<nOpponent;i++){ //for all opponent cars
-            diff = car_y - ly[i]; //diff is the distance between the user's car and the opponent car
             if((ly[i] >= car_y && ly[i] <= car_y+46) || (ly[i]+46 >= car_y && ly[i]+46 <= car_y+46)){   //if the cars collide vertically
                 if(car_x+87 >= lx[i] && !(car_x >= lx[i]+87)){  //and if the cars collide horizontally
                     System.out.println("My car : "+car_x+", "+car_y);
@@ -166,39 +163,39 @@ public class Game extends JPanel{
     
     //function that handles input by user to move the user's car up, left, down and right
     public void moveCar(KeyEvent e){
-        if(e.getKeyCode() == KeyEvent.VK_UP){   //if user clicks on the up arrow key
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){   //if user clicks on the the right arrow key
             isUp = true;
             speedX = 1;     //moves car foward
         }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN){ //if user clicks on the down arrow key
+        if(e.getKeyCode() == KeyEvent.VK_LEFT){ //if user clicks on the left arrow key
             isDown = true;
             speedX = -2;    //moves car backwards
         }
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT){ //if user clicks on the right arrow key
+        if(e.getKeyCode() == KeyEvent.VK_DOWN){ //if user clicks on the down arrow key
             isRight = true;
-            speedY = 1;     //moves car to the right
+            speedY = 1;     //moves car to the down
         }
-        if(e.getKeyCode() == KeyEvent.VK_LEFT){ //if user clicks on the left arrow key
+        if(e.getKeyCode() == KeyEvent.VK_UP){ //if user clicks on the up arrow key
             isLeft = true;
-            speedY = -1;    //moves car to the left
+            speedY = -1;    //moves car to the up
         }
     }
     
     //function that handles user input when the car is supposed to be stopped
     public void stopCar(KeyEvent e){
-        if(e.getKeyCode() == KeyEvent.VK_UP){   //if user clicks on the up arrow key
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){   //if user clicks on the right arrow key
             isUp = false;
             speedX = 0; //set speed of car to zero
         }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN){    //if user clicks on the down arrow key
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT){    //if user clicks on the left arrow key
             isDown = false;
             speedX = 0; //set speed of car to zero
         }
-        else if(e.getKeyCode() == KeyEvent.VK_LEFT){    //if user clicks on the left arrow key
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN){    //if user clicks on the down arrow key
             isLeft = false;
             speedY = 0; //set speed of car to zero
         }
-        else if(e.getKeyCode() == KeyEvent.VK_RIGHT){   //if user clicks on the right arrow key
+        else if(e.getKeyCode() == KeyEvent.VK_UP){   //if user clicks on the up arrow key
             isRight = false;
             speedY = 0; //set speed of car to zero
         }
